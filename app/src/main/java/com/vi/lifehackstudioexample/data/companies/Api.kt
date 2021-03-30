@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface Api {
 
-    @GET("test_task/test.php")
+    @GET("test.php")
     fun getCompanies(): Call<List<Company>>
 
 }

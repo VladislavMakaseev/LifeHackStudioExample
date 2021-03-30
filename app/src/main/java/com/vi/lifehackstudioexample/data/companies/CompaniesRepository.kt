@@ -1,5 +1,6 @@
 package com.vi.lifehackstudioexample.data.companies
 
+import com.vi.lifehackstudioexample.data.companies.NetworkService.Companion.BASE_URL
 import com.vi.lifehackstudioexample.domain.companies.CompaniesDataSource
 import com.vi.lifehackstudioexample.domain.companies.Company
 import retrofit2.Call
@@ -35,11 +36,12 @@ class CompaniesRepository(
                 }
             })
         }
+
         return listOfPojoCompanies.map {
             Company(
                 id = it.id?.toLong(),
                 name = it.name,
-                img = "https://lifehack.studio/test_task/${it.img}"
+                img = "${BASE_URL}${it.img}"
             )
         }
     }
