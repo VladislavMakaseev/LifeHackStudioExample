@@ -8,5 +8,20 @@
         android:id="@+id/companiesFragment"
         android:name="com.vi.lifehackstudioexample.presentation.companies.CompaniesFragment"
         android:label="CompaniesFragment"
-        />
+        >
+        <action
+            android:id="@+id/action_companiesFragment_to_detailCompanyFragment"
+            app:destination="@id/detailCompanyFragment"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/detailCompanyFragment"
+        android:name="com.vi.lifehackstudioexample.presentation.detailcompany.DetailCompanyFragment"
+        android:label="DetailCompanyFragment"
+        >
+        <argument
+            android:name="id"
+            app:argType="long"
+            />
+    </fragment>
 </navigation>

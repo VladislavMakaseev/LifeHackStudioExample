@@ -8,6 +8,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.vi.lifehackstudioexample.R
 import com.vi.lifehackstudioexample.base.event.EventObserver
 import com.vi.lifehackstudioexample.databinding.FragmentCompaniesBinding
@@ -20,6 +21,7 @@ class CompaniesFragment : Fragment() {
     private var _binding: FragmentCompaniesBinding? = null
     private val binding get() = _binding!!
 
+    private val navController by lazy { findNavController() }
     private val viewModel: CompaniesViewModel by viewModel()
 
     private lateinit var adapter: CompaniesAdapter
@@ -52,7 +54,13 @@ class CompaniesFragment : Fragment() {
                     requireContext(),
                     object : CompanyDelegate.OnClickListener {
                         override fun onItemClick(company: Company, position: Int) {
-                            // TODO: VM 30-Mar-21 Impl
+                            company.id?.let {
+                                navController.navigate(
+                                    CompaniesFragmentDirections.actionCompaniesFragmentToDetailCompanyFragment(
+                                        it
+                                    )
+                                )
+                            }
                         }
                     })
             )

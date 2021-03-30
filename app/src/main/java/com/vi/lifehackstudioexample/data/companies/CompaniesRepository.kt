@@ -1,6 +1,5 @@
 package com.vi.lifehackstudioexample.data.companies
 
-import com.vi.lifehackstudioexample.data.companies.NetworkService.Companion.BASE_URL
 import com.vi.lifehackstudioexample.domain.companies.CompaniesDataSource
 import com.vi.lifehackstudioexample.domain.companies.Company
 import com.vi.lifehackstudioexample.domain.companies.DetailCompany
@@ -43,18 +42,18 @@ class CompaniesRepository(
             Company(
                 id = it.id?.toLong(),
                 name = it.name,
-                img = "${BASE_URL}${it.img}"
+                img = "https://lifehack.studio/test_task/${it.img}"
             )
         }
     }
 
     override suspend fun getDetailCompany(id: Long): DetailCompany {
         val call = api.getDetailCompanyById(id)
-        val detailPojoCompany: PojoDetailCompany = suspendCoroutine { coroutine ->
-            call.enqueue(object : Callback<PojoDetailCompany> {
+        val listOfPojoDetailCompany: List<PojoDetailCompany> = suspendCoroutine { coroutine ->
+            call.enqueue(object : Callback<List<PojoDetailCompany>> {
                 override fun onResponse(
-                    call: Call<PojoDetailCompany>,
-                    response: Response<PojoDetailCompany>
+                    call: Call<List<PojoDetailCompany>>,
+                    response: Response<List<PojoDetailCompany>>
                 ) {
                     if (response.isSuccessful) {
                         val detailCompany = response.body()
@@ -64,22 +63,37 @@ class CompaniesRepository(
                     }
                 }
 
-                override fun onFailure(call: Call<PojoDetailCompany>, t: Throwable) {
+                override fun onFailure(call: Call<List<PojoDetailCompany>>, t: Throwable) {
                     Timber.d("kek:: Error $t")
                 }
 
             })
         }
-        return DetailCompany(
-            id = detailPojoCompany.id?.toLong(),
-            name = detailPojoCompany.name,
-            img = "${BASE_URL}${detailPojoCompany.img}",
-            description = detailPojoCompany.description,
-            lat = detailPojoCompany.lat,
-            lon = detailPojoCompany.lon,
-            www = detailPojoCompany.www,
-            phone = detailPojoCompany.phone
-        )
+
+        return if (listOfPojoDetailCompany.isNotEmpty()) {
+            DetailCompany(
+                id = listOfPojoDetailCompany.first().id?.toLong(),
+                name = listOfPojoDetailCompany.first().name,
+                img = "https://lifehack.studio/test_task/${listOfPojoDetailCompany.first().img}",
+                description = listOfPojoDetailCompany.first().description,
+                lat = listOfPojoDetailCompany.first().lat,
+                lon = listOfPojoDetailCompany.first().lon,
+                www = listOfPojoDetailCompany.first().www,
+                phone = listOfPojoDetailCompany.first().phone
+            )
+        } else {
+            DetailCompany(
+                id = 0,
+                name = "",
+                img = "",
+                description = "",
+                lat = 0f,
+                lon = 0f,
+                www = "",
+                phone = ""
+            )
+        }
+
     }
 
 }

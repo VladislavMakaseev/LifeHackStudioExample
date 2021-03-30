@@ -6,6 +6,7 @@ import com.vi.lifehackstudioexample.domain.companies.CompaniesDataSource
 import com.vi.lifehackstudioexample.domain.companies.GetCompanies
 import com.vi.lifehackstudioexample.domain.companies.GetDetailCompany
 import com.vi.lifehackstudioexample.presentation.companies.CompaniesViewModel
+import com.vi.lifehackstudioexample.presentation.detailcompany.DetailCompanyViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -36,6 +37,13 @@ val companyModule = module {
     viewModel {
         CompaniesViewModel(
             getCompanies = get()
+        )
+    }
+
+    viewModel { (id: Long) ->
+        DetailCompanyViewModel(
+            id = id,
+            getDetailCompany = get()
         )
     }
 
