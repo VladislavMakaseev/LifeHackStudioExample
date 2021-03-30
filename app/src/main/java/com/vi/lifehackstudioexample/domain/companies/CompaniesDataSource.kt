@@ -4,6 +4,6 @@ interface CompaniesDataSource {
 
     suspend fun getCompanies(): List<Company>
 
-    suspend fun getCompany(id: Long): Company
+    suspend fun getDetailCompany(id: Long): DetailCompany
 
 }
