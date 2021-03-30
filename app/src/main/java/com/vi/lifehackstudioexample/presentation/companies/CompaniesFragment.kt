@@ -11,8 +11,9 @@ import androidx.fragment.app.Fragment
 import com.vi.lifehackstudioexample.R
 import com.vi.lifehackstudioexample.base.event.EventObserver
 import com.vi.lifehackstudioexample.databinding.FragmentCompaniesBinding
+import com.vi.lifehackstudioexample.domain.companies.Company
+import com.vi.lifehackstudioexample.presentation.companies.delegate.CompanyDelegate
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class CompaniesFragment : Fragment() {
 
@@ -20,6 +21,8 @@ class CompaniesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: CompaniesViewModel by viewModel()
+
+    private lateinit var adapter: CompaniesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +45,18 @@ class CompaniesFragment : Fragment() {
     }
 
     private fun setupViews() {
-        // TODO: Impl
+        adapter = CompaniesAdapter()
+        adapter.delegatesManager
+            .addDelegate(
+                CompanyDelegate(
+                    requireContext(),
+                    object : CompanyDelegate.OnClickListener {
+                        override fun onItemClick(company: Company, position: Int) {
+                            // TODO: VM 30-Mar-21 Impl
+                        }
+                    })
+            )
+        binding.rvCompanies.adapter = adapter
     }
 
     private fun setupViewModel() {
@@ -50,7 +64,8 @@ class CompaniesFragment : Fragment() {
             showOrHideLoading(isLoading)
         })
         viewModel.companiesLiveData.observe(viewLifecycleOwner, { items ->
-           Timber.d("kek:: items = $items")
+            adapter.clear()
+            adapter.add(items)
         })
         viewModel.errorLiveData.observe(viewLifecycleOwner, EventObserver { message ->
             showError(message)

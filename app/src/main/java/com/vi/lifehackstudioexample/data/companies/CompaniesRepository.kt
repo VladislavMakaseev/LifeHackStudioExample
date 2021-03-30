@@ -24,9 +24,7 @@ class CompaniesRepository(
                 ) {
                     if (response.isSuccessful) {
                         val companies = response.body()
-                        Timber.d("kek:: companies = ${companies?.size}")
                         companies?.let {
-                            Timber.d("kek:: response.isSuccessful")
                             coroutine.resume(it)
                         }
                     }
@@ -41,7 +39,7 @@ class CompaniesRepository(
             Company(
                 id = it.id?.toLong(),
                 name = it.name,
-                img = it.img
+                img = "https://lifehack.studio/test_task/${it.img}"
             )
         }
     }
