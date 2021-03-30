@@ -24,7 +24,7 @@ class CompaniesRepository(
                 ) {
                     if (response.isSuccessful) {
                         val companies = response.body()
-                        Timber.d("kek:: companies = $companies")
+                        Timber.d("kek:: companies = ${companies?.size}")
                         companies?.let {
                             Timber.d("kek:: response.isSuccessful")
                             coroutine.resume(it)

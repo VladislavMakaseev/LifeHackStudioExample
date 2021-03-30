@@ -18,8 +18,8 @@ class CompaniesViewModel(
     private val _loadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = _loadingLiveData
 
-    private val _itemsLiveData = MutableLiveData<List<Company>>()
-    val itemsLiveData: LiveData<List<Company>> = _itemsLiveData
+    private val _companiesLiveData = MutableLiveData<List<Company>>()
+    val companiesLiveData: LiveData<List<Company>> = _companiesLiveData
 
     private val _errorLiveData = MutableLiveData<Event<String?>>()
     val errorLiveData: LiveData<Event<String?>> = _errorLiveData
@@ -47,7 +47,7 @@ class CompaniesViewModel(
     }
 
     private fun emitItems(items: List<Company>) {
-        _itemsLiveData.postValue(items)
+        _companiesLiveData.postValue(items)
     }
 
     private fun emitError(t: Throwable) {
